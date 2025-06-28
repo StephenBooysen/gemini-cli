@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof title !== 'undefined' ? title : 'Markdown Wiki' %> - My Wiki</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="navigation-pane">
+            <h2>Navigation</h2>
+            <!-- Search Bar Placeholder -->
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search docs...">
+                <div id="searchResults"></div>
+            </div>
+            <hr>
+            <% function renderNav(items, basePath = '') { %>
+                <ul>
+                <% items.forEach(item => { %>
+                    <li>
+                        <% if (item.type === 'folder') { %>
+                            <strong><%= item.name %></strong>
+                            <% if (item.children && item.children.length > 0) { %>
+                                <%- renderNav(item.children, (basePath ? basePath + '/' : '') + item.name) %>
+                            <% } %>
+                        <% } else if (item.type === 'file') { %>
+                            <% const filePathForLink = item.relativePath.replace(/\\/g, '/'); %>
+                            <a href="/view/<%= filePathForLink %>"><%= item.name.replace('.md', '') %></a>
+                        <% } %>
+                    </li>
+                <% }); %>
+                </ul>
+            <% } %>
+
+            <% if (locals.directoryTree && locals.directoryTree.children) { %>
+                <%- renderNav(locals.directoryTree.children) %>
+            <% } else { %>
+                <p>No content found or error loading navigation.</p>
+            <% } %>
+        </nav>
+        <main class="content-pane">
+            <% if (typeof body !== 'undefined') { %>
+                <%- body %>
+            <% } else { %>
+                <h1>Welcome to the Wiki</h1>
+                <p>Select a document from the navigation to view its content.</p>
+            <% } %>
+        </main>
+    </div>
+    <script src="/js/main.js"></script> <!-- For search and other interactions -->
+</body>
+</html>

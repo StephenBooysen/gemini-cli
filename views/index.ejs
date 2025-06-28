@@ -1,0 +1,15 @@
+<% // This view will use the layout.ejs implicitly by Express conventions %>
+<% // The 'title' variable is passed from the route in app.js %>
+<% // The 'body' variable in layout.ejs will render the content below %>
+
+<h1>Welcome to Your Markdown Wiki</h1>
+<p>Use the navigation panel on the left to browse through your documents.</p>
+<p>The search functionality will be enabled soon!</p>
+
+<% // If there's a root README.md, we could consider rendering it here by default %>
+<% // For example, if a 'rootContent' variable was passed: %>
+<% /* if (typeof rootContent !== 'undefined' && rootContent) { %>
+    <%- rootContent %>
+<% } else { %>
+    <p>Select a document from the navigation to get started.</p>
+<% } */ %>

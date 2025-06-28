@@ -1,0 +1,343 @@
+/* General Reset & Base Styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+    background-color: #fff; /* Main background for the page */
+}
+
+/* Container for the two-pane layout */
+.container {
+    display: flex;
+    height: 100vh; /* Full viewport height */
+    width: 100vw; /* Full viewport width */
+}
+
+/* Navigation Pane Styling */
+.navigation-pane {
+    width: 280px; /* Slightly wider for a more modern feel */
+    min-width: 220px; /* Minimum width */
+    background-color: #f7f9fc; /* Light, slightly blueish-gray, common in wikis */
+    border-right: 1px solid #e0e0e0; /* Softer border */
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto; /* Enable scrolling for navigation items */
+    display: flex;
+    flex-direction: column;
+}
+
+.navigation-pane h2 {
+    font-size: 1.1em; /* Subtler heading */
+    color: #555;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Search Bar in Navigation */
+.search-bar {
+    margin-bottom: 20px;
+    position: sticky; /* Keep search bar visible when scrolling nav */
+    top: -20px; /* Adjust based on padding */
+    background-color: #f7f9fc; /* Match nav background */
+    padding-top: 20px; /* Restore padding */
+    padding-bottom: 10px;
+    z-index: 10;
+}
+
+.search-bar input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d5da; /* GitHub-like border */
+    border-radius: 6px; /* Rounded corners */
+    font-size: 0.95em;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.search-bar input[type="text"]:focus {
+    border-color: #0366d6; /* Blue border on focus */
+    box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.3);
+    outline: none;
+}
+
+#searchResults {
+    margin-top: 8px;
+    max-height: 200px; /* Limit height and make scrollable if many results */
+    overflow-y: auto;
+    font-size: 0.9em;
+    border-top: 1px solid #eee;
+    padding-top: 5px;
+}
+
+#searchResults ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+}
+#searchResults li a {
+    display: block;
+    padding: 6px 10px; /* More padding for touch */
+    color: #0366d6; /* Consistent link color */
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+#searchResults li a:hover {
+    background-color: #e9ecef; /* Subtle hover for search results */
+    text-decoration: none;
+}
+
+
+/* Navigation List Styling */
+.navigation-pane hr {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin: 20px 0;
+}
+
+.navigation-pane ul {
+    list-style-type: none;
+    padding-left: 5px; /* Base padding */
+    margin: 0;
+    flex-grow: 1; /* Allow this part to scroll if content overflows */
+    overflow-y: auto;
+}
+
+.navigation-pane ul ul {
+    padding-left: 18px; /* Deeper indent for nested items */
+}
+
+.navigation-pane li {
+    margin-bottom: 2px; /* Tighter spacing */
+}
+
+.navigation-pane li strong { /* Folder names */
+    font-weight: 500; /* Slightly less bold */
+    color: #24292e; /* Darker, GitHub-like text */
+    display: block;
+    padding: 6px 10px;
+    cursor: default; /* Indicate it's not directly clickable (unless made so) */
+    font-size: 0.95em;
+}
+
+.navigation-pane li a {
+    display: block;
+    padding: 6px 10px; /* Consistent padding */
+    text-decoration: none;
+    color: #0366d6; /* Standard link blue */
+    border-radius: 4px; /* Subtle rounded corners for links */
+    font-size: 0.9em;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.navigation-pane li a:hover {
+    background-color: #e9ecef; /* Light gray hover, common in sidebars */
+    text-decoration: none;
+}
+.navigation-pane li a.active { /* Style for active link if implemented */
+    background-color: #ddeeff;
+    font-weight: 600;
+    color: #0056b3;
+}
+
+
+/* Content Pane Styling */
+.content-pane {
+    flex-grow: 1;
+    padding: 30px 40px; /* More padding for content area */
+    overflow-y: auto; /* Enable scrolling for content */
+    background-color: #ffffff; /* White background for content */
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* Markdown Body Specific Styles (Wiki.js like) */
+.markdown-body {
+    max-width: 800px; /* Max width for readability, common in docs */
+    margin: 0 auto; /* Center the content */
+    line-height: 1.7;
+    color: #24292e; /* GitHub's primary text color */
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+    margin-top: 1.5em; /* More space above headings */
+    margin-bottom: 0.8em;
+    font-weight: 600;
+    line-height: 1.25;
+    color: #111; /* Darker headings */
+}
+
+.markdown-body h1 {
+    font-size: 2.25em; /* Larger H1 */
+    border-bottom: 1px solid #eaecef; /* GitHub-like border */
+    padding-bottom: 0.3em;
+}
+
+.markdown-body h2 {
+    font-size: 1.75em; /* Larger H2 */
+    border-bottom: 1px solid #eaecef;
+    padding-bottom: 0.3em;
+}
+
+.markdown-body h3 { font-size: 1.4em; }
+.markdown-body h4 { font-size: 1.15em; }
+.markdown-body h5 { font-size: 1em; font-weight: 500; }
+.markdown-body h6 { font-size: 0.9em; color: #586069; font-weight: 500; }
+
+.markdown-body p {
+    margin-bottom: 1em;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+    padding-left: 2em; /* Standard indent for lists */
+    margin-bottom: 1em;
+}
+.markdown-body ul li, .markdown-body ol li {
+    margin-bottom: 0.25em; /* Spacing between list items */
+}
+
+.markdown-body li > p {
+    margin-bottom: 0.25em;
+}
+
+.markdown-body blockquote {
+    margin: 0 0 1em 0;
+    padding: 0.5em 1em;
+    color: #586069; /* GitHub's quote color */
+    border-left: 0.25em solid #dfe2e5; /* GitHub's quote border color */
+    background-color: #f9f9f9; /* Slight background for quote */
+}
+
+.markdown-body pre {
+    background-color: #f6f8fa; /* GitHub's code block background */
+    padding: 16px;
+    overflow: auto;
+    font-size: 0.9em; /* Slightly smaller for code blocks */
+    line-height: 1.45;
+    border-radius: 6px; /* Rounded corners */
+    margin-bottom: 1em;
+    border: 1px solid #e1e4e8; /* Subtle border for code blocks */
+}
+
+.markdown-body code { /* Inline code */
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-size: 0.875em; /* Slightly smaller than surrounding text */
+    padding: 0.2em 0.4em;
+    margin: 0 2px; /* Small margin */
+    background-color: rgba(27,31,35,0.07); /* Lighter background for inline code */
+    border-radius: 3px;
+}
+
+.markdown-body pre code { /* Code within pre, reset some styles */
+    font-size: 100%;
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    border: 0;
+    color: inherit; /* Inherit color from pre for syntax highlighting themes */
+}
+
+.markdown-body table {
+    border-collapse: collapse;
+    margin-bottom: 1em;
+    display: block;
+    width: 100%;
+    overflow: auto;
+    border-spacing: 0;
+}
+
+.markdown-body th,
+.markdown-body td {
+    border: 1px solid #dfe2e5; /* GitHub table border color */
+    padding: 8px 13px; /* More padding in table cells */
+}
+
+.markdown-body th {
+    font-weight: 600;
+    background-color: #f6f8fa; /* Light background for table headers */
+}
+.markdown-body tr:nth-child(2n) {
+    background-color: #fcfcfc; /* Zebra striping for table rows */
+}
+
+
+.markdown-body img {
+    max-width: 100%;
+    height: auto;
+    box-sizing: content-box;
+    background-color: #fff;
+    border: 1px solid #e1e4e8; /* Optional border for images */
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+.markdown-body hr {
+    height: 4px; /* Thicker hr */
+    padding: 0;
+    margin: 24px 0;
+    background-color: #e1e4e8; /* GitHub hr color */
+    border: 0;
+}
+
+/* Utility for screen readers only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Basic Responsive Adjustments */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* Stack nav and content */
+    }
+
+    .navigation-pane {
+        width: 100%; /* Full width for nav on small screens */
+        height: auto; /* Adjust height automatically */
+        max-height: 40vh; /* Limit nav height, make it scrollable */
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0; /* Border at the bottom */
+    }
+    .search-bar {
+        position: static; /* Search bar scrolls with nav */
+        padding-top: 0;
+    }
+
+    .content-pane {
+        width: 100%;
+        padding: 20px; /* Reduce padding slightly on mobile */
+    }
+
+    .markdown-body {
+        padding: 0 10px; /* Ensure some padding if content pane padding is removed */
+    }
+}
+
+@media (max-width: 480px) {
+    .content-pane {
+        padding: 15px;
+    }
+    .markdown-body h1 { font-size: 1.8em; }
+    .markdown-body h2 { font-size: 1.4em; }
+    .markdown-body h3 { font-size: 1.2em; }
+}

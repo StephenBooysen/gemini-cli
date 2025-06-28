@@ -1,0 +1,10 @@
+<% // This view uses layout.ejs implicitly %>
+<% // It expects 'title' and 'documentHtml' to be passed from the route %>
+<% // directoryTree is available from res.locals via middleware in app.js %>
+
+<article class="markdown-body">
+    <%- documentHtml %>
+</article>
+
+<% // Basic styling for markdown content can be added to style.css %>
+<% // For example, styles for h1, h2, p, code, blockquote, etc. %>

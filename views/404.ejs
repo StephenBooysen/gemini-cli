@@ -1,0 +1,12 @@
+<% // This view uses layout.ejs implicitly %>
+<% // It expects 'title' and 'filePath' (optional) to be passed %>
+
+<h1><%= title %></h1>
+
+<% if (typeof filePath !== 'undefined' && filePath) { %>
+    <p>The document at <code><%= filePath %></code> could not be found.</p>
+<% } else { %>
+    <p>The page or document you were looking for could not be found.</p>
+<% } %>
+
+<p><a href="/">Return to Home</a></p>
