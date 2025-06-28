@@ -21,7 +21,7 @@
   "homepage": "https://github.com/StephenBooysen/gemini-cli#readme",
   "dependencies": {
     "ejs": "^3.1.10",
-    "express": "^5.1.0",
+    "express": "4.12.2",
     "fs-extra": "^11.3.0",
     "lunr": "^2.3.9",
     "marked": "^16.0.0"
