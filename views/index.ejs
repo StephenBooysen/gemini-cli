@@ -2,14 +2,10 @@
 <% // The 'title' variable is passed from the route in app.js %>
 <% // The 'body' variable in layout.ejs will render the content below %>
 
-<h1>Welcome to Your Markdown Wiki</h1>
-<p>Use the navigation panel on the left to browse through your documents.</p>
-<p>The search functionality will be enabled soon!</p>
-
-<% // If there's a root README.md, we could consider rendering it here by default %>
-<% // For example, if a 'rootContent' variable was passed: %>
-<% /* if (typeof rootContent !== 'undefined' && rootContent) { %>
-    <%- rootContent %>
+<% if (typeof defaultContentHtml !== 'undefined' && defaultContentHtml) { %>
+    <%- defaultContentHtml %>
 <% } else { %>
-    <p>Select a document from the navigation to get started.</p>
-<% } */ %>
+    <h1>Welcome to Your Markdown Wiki</h1>
+    <p>Use the navigation panel on the left to browse through your documents, or create a <code>GettingStarted.md</code>, <code>index.md</code>, or <code>README.md</code> in your content directory to see it here.</p>
+    <p>The search functionality will be enabled soon!</p>
+<% } %>
