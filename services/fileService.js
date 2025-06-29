@@ -3,8 +3,8 @@
  * @requires fs.promises
  * @requires path
  */
-const fs = require('fs').promises; // Using fs.promises
-const path = require('path');
+import fs from 'fs/promises'; // Using fs.promises
+import path from 'path';
 
 /**
  * Represents a node in the directory tree.
@@ -24,10 +24,11 @@ const path = require('path');
  * @async
  * @function getDirectoryTree
  * @param {string} dirPath - The path to the directory to scan.
+ * @param {string} contentBaseDir - The base directory for content, used to calculate relative paths.
  * @returns {Promise<DirectoryTreeNode>} A promise that resolves to an object representing the directory tree.
  * @throws {Error} If the path is not a directory or if other file system errors occur (excluding ENOENT on initial dirPath scan).
  */
-async function getDirectoryTree(dirPath) {
+async function getDirectoryTree(dirPath, contentBaseDir) {
     let stats;
     try {
         stats = await fs.stat(dirPath);
@@ -79,11 +80,13 @@ async function getDirectoryTree(dirPath) {
 
 
         if (itemStats.isDirectory()) {
-            tree.children.push(await getDirectoryTree(itemPath));
+            tree.children.push(await getDirectoryTree(itemPath, contentBaseDir));
         } else if (itemStats.isFile() && path.extname(item).toLowerCase() === '.md') {
+            const relativePath = path.relative(contentBaseDir, itemPath);
             tree.children.push({
                 name: item,
-                path: itemPath, // Store the full path relative to project root or content dir
+                path: itemPath, // Store the full path
+                relativePath: relativePath, // Store the path relative to contentBaseDir
                 type: 'file'
             });
         }
@@ -102,6 +105,6 @@ async function getDirectoryTree(dirPath) {
  * @module services/fileService
  * @description Provides file system utility functions.
  */
-module.exports = {
+export {
     getDirectoryTree
 };
