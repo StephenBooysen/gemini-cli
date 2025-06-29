@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs').promises; // Added fs.promises
 const marked = require('marked'); // Added marked
+const expressLayouts = require('express-ejs-layouts'); // Added express-ejs-layouts
 const fileService = require('./services/fileService');
 const searchService = require('./services/searchService');
 
@@ -11,6 +12,8 @@ const port = process.env.PORT || 3000;
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(expressLayouts); // Use express-ejs-layouts
+// app.set('layout', 'layout'); // Optional: defaults to 'layout.ejs' in views directory
 
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));
