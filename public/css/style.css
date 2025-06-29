@@ -10,27 +10,31 @@ body, html {
     background-color: #fff; /* Main background for the page */
 }
 
-/* Container for the two-pane layout */
+/* Container for the two-pane layout - BOOTSTRAP NOW HANDLES THIS with .container-fluid and .row > .col-md-X */
+/*
 .container {
     display: flex;
-    height: 100vh; /* Full viewport height */
-    width: 100vw; /* Full viewport width */
+    height: 100vh;
+    width: 100vw;
 }
+*/
 
-/* Navigation Pane Styling */
+/* Navigation Pane Styling - BOOTSTRAP NOW HANDLES SIZING AND BASIC LAYOUT via .col-md-3, .bg-light, .sidebar etc. */
+/* We can keep some specific styling like background or padding if Bootstrap defaults aren't enough */
 .navigation-pane {
-    width: 280px; /* Slightly wider for a more modern feel */
-    min-width: 220px; /* Minimum width */
-    background-color: #f7f9fc; /* Light, slightly blueish-gray, common in wikis */
-    border-right: 1px solid #e0e0e0; /* Softer border */
-    padding: 20px;
-    box-sizing: border-box;
-    overflow-y: auto; /* Enable scrolling for navigation items */
-    display: flex;
-    flex-direction: column;
+    /* width: 280px; */ /* Handled by Bootstrap col-md-3 col-lg-2 */
+    /* min-width: 220px; */
+    /* background-color: #f7f9fc; */ /* Bootstrap's .bg-light is similar or can be overridden if needed */
+    /* border-right: 1px solid #e0e0e0; */ /* Bootstrap .sidebar might add its own, or we can add if needed */
+    /* padding: 20px; */ /* Bootstrap .pt-3 adds padding-top, specific padding can be adjusted */
+    box-sizing: border-box; /* Bootstrap usually sets this globally */
+    /* overflow-y: auto; */ /* .position-sticky with a child div that scrolls is a common pattern */
+    /* display: flex; */ /* Handled by Bootstrap col */
+    /* flex-direction: column; */
 }
 
-.navigation-pane h2 {
+/* This h2 is replaced by h6.sidebar-heading with Bootstrap classes */
+/* .navigation-pane h2 {
     font-size: 1.1em; /* Subtler heading */
     color: #555;
     margin-top: 0;
@@ -51,114 +55,71 @@ body, html {
     z-index: 10;
 }
 
-.search-bar input[type="text"] {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #d1d5da; /* GitHub-like border */
-    border-radius: 6px; /* Rounded corners */
-    font-size: 0.95em;
-    box-sizing: border-box;
-    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-}
+/* Search input is now .form-control in Bootstrap, so these specific styles might not be needed or can be adjusted */
+/* .search-bar input[type="text"] { ... } */
+/* .search-bar input[type="text"]:focus { ... } */
 
-.search-bar input[type="text"]:focus {
-    border-color: #0366d6; /* Blue border on focus */
-    box-shadow: 0 0 0 3px rgba(3, 102, 214, 0.3);
-    outline: none;
-}
-
+/* #searchResults is now a direct child of .container-fluid, its positioning will need review */
 #searchResults {
-    margin-top: 8px;
-    max-height: 200px; /* Limit height and make scrollable if many results */
-    overflow-y: auto;
-    font-size: 0.9em;
-    border-top: 1px solid #eee;
-    padding-top: 5px;
+    margin-top: 0; /* Adjusted from 8px as it's no longer in the nav pane flow */
+    /* max-height needs to be considered with its new position, maybe it becomes a dropdown */
+    /* border-top: 1px solid #eee; */ /* May not be needed or could be a top border on the container */
+    /* padding-top: 5px; */
 }
 
+/* These styles for search results items can largely remain, but ensure they don't conflict with Bootstrap utility classes if any are added */
 #searchResults ul {
-    list-style-type: none;
+    /* list-style-type: none; */ /* Bootstrap .list-unstyled will handle this if added */
     padding-left: 0;
     margin: 0;
 }
 #searchResults li a {
     display: block;
-    padding: 6px 10px; /* More padding for touch */
-    color: #0366d6; /* Consistent link color */
+    padding: 6px 10px;
+    color: #0366d6;
     text-decoration: none;
     border-radius: 4px;
 }
 
 #searchResults li a:hover {
-    background-color: #e9ecef; /* Subtle hover for search results */
+    background-color: #e9ecef;
     text-decoration: none;
 }
 
 
-/* Navigation List Styling */
-.navigation-pane hr {
-    border: none;
-    border-top: 1px solid #e0e0e0;
-    margin: 20px 0;
-}
+/* Navigation List Styling - Bootstrap's .nav .flex-column .nav-item .nav-link handle most of this */
+/* .navigation-pane hr { ... } */ /* Replaced by Bootstrap heading or can be re-added if a separator is desired */
 
-.navigation-pane ul {
-    list-style-type: none;
-    padding-left: 5px; /* Base padding */
-    margin: 0;
-    flex-grow: 1; /* Allow this part to scroll if content overflows */
-    overflow-y: auto;
-}
+/* .navigation-pane ul { ... } */ /* Now .nav .flex-column */
+/* .navigation-pane ul ul { ... } */ /* Nested ULs will inherit some Bootstrap styling, or need specific rules if .nav is not applied recursively */
 
-.navigation-pane ul ul {
-    padding-left: 18px; /* Deeper indent for nested items */
-}
+/* .navigation-pane li { ... } */ /* Now .nav-item */
 
-.navigation-pane li {
-    margin-bottom: 2px; /* Tighter spacing */
-}
-
-.navigation-pane li strong { /* Folder names */
-    font-weight: 500; /* Slightly less bold */
-    color: #24292e; /* Darker, GitHub-like text */
-    display: block;
-    padding: 6px 10px;
-    cursor: default; /* Indicate it's not directly clickable (unless made so) */
+.navigation-pane li strong { /* Folder names - can keep specific styling for these */
+    font-weight: 500;
+    color: #24292e;
+    display: block; /* Ensure it takes full width for padding */
+    /* padding: 6px 10px; */ /* Bootstrap .px-3 is used in layout.ejs */
+    cursor: default;
     font-size: 0.95em;
 }
 
-.navigation-pane li a {
-    display: block;
-    padding: 6px 10px; /* Consistent padding */
-    text-decoration: none;
-    color: #0366d6; /* Standard link blue */
-    border-radius: 4px; /* Subtle rounded corners for links */
-    font-size: 0.9em;
-    transition: background-color 0.15s ease-in-out;
-}
-
-.navigation-pane li a:hover {
-    background-color: #e9ecef; /* Light gray hover, common in sidebars */
-    text-decoration: none;
-}
-.navigation-pane li a.active { /* Style for active link if implemented */
-    background-color: #ddeeff;
-    font-weight: 600;
-    color: #0056b3;
-}
+/* .navigation-pane li a { ... } */ /* Now .nav-link, Bootstrap handles display, padding, color etc. */
+/* .navigation-pane li a:hover { ... } */ /* Bootstrap .nav-link hover styles apply */
+/* .navigation-pane li a.active { ... } */ /* Bootstrap .active class on .nav-link handles this */
 
 
-/* Content Pane Styling */
+/* Content Pane Styling - BOOTSTRAP NOW HANDLES SIZING via .col-md-9 */
 .content-pane {
-    flex-grow: 1;
-    padding: 30px 40px; /* More padding for content area */
-    overflow-y: auto; /* Enable scrolling for content */
-    background-color: #ffffff; /* White background for content */
-    height: 100%;
-    box-sizing: border-box;
+    /* flex-grow: 1; */ /* Handled by Bootstrap col */
+    /* padding: 30px 40px; */ /* Bootstrap .px-md-4 adds horizontal padding, vertical can be added with .py-* */
+    overflow-y: auto; /* Keep for scrolling content */
+    /* background-color: #ffffff; */ /* Default, or can be set */
+    /* height: 100%; */ /* Managed by Bootstrap row/col flex behavior */
+    box-sizing: border-box; /* Bootstrap global */
 }
 
-/* Markdown Body Specific Styles (Wiki.js like) */
+/* Markdown Body Specific Styles (Wiki.js like) - These should largely remain as they style the content itself */
 .markdown-body {
     max-width: 800px; /* Max width for readability, common in docs */
     margin: 0 auto; /* Center the content */
