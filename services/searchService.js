@@ -4,9 +4,9 @@
  * @requires fs.promises
  * @requires path
  */
-const lunr = require('lunr');
-const fs = require('fs').promises;
-const path = require('path');
+import lunr from 'lunr'; // Changed to ES6 import
+import fs from 'fs/promises'; // Changed to ES6 import
+import path from 'path'; // Changed to ES6 import
 
 /**
  * The Lunr.js search index instance.
@@ -152,7 +152,7 @@ function search(query) {
  * @module services/searchService
  * @description Provides functionalities to build a search index and perform searches on documents.
  */
-module.exports = {
+export { // Changed to ES6 export
     buildIndex,
     search
 };

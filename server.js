@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import expressLayouts from 'express-ejs-layouts';
 import { getDirectoryTree } from './services/fileService.js';
+import { buildIndex, search } from './services/searchService.js'; // Import search and buildIndex
 import viewRoutes from './routes/view.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -24,17 +25,44 @@ app.set('layout', 'layout'); // This tells ejs-layouts to use views/layout.ejs
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Middleware to make directory tree available to all views
+// Middleware to make directory tree available to all views and build search index once
+app.locals.indexBuilt = false; // Flag to ensure index is built only once
+
 app.use(async (req, res, next) => {
     try {
-        res.locals.directoryTree = await getDirectoryTree(contentDir, contentDir);
+        if (!app.locals.directoryTree) { // Check if tree already exists at app level
+            console.log('Fetching directory tree for the first time...');
+            const tree = await getDirectoryTree(contentDir, contentDir);
+            app.locals.directoryTree = tree; // Store it in app.locals
+            console.log('Directory tree fetched.');
+        }
+        // Pass the app-level tree to res.locals for this request
+        res.locals.directoryTree = app.locals.directoryTree;
+
+        if (!app.locals.indexBuilt) { // Check if index has been built
+            console.log('Building search index for the first time...');
+            await buildIndex(app.locals.directoryTree); // Build index using the app-level tree
+            app.locals.indexBuilt = true;
+            console.log('Search index built.');
+        }
         next();
     } catch (error) {
-        console.error('Error fetching directory tree:', error);
+        console.error('Error in initial setup (directory tree/search index):', error);
         next(error);
     }
 });
 
-// Routes
+// API Search Route
+app.get('/api/search', (req, res) => {
+    const query = req.query.q;
+    if (!query) {
+        return res.status(400).json({ error: 'Search query (q) is required.' });
+    }
+    const results = search(query);
+    res.json(results);
+});
+
+// View Routes (must be after API routes if they have conflicting path structures)
 app.use('/view', viewRoutes);
 
 // Home page route
