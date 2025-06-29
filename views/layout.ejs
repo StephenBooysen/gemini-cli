@@ -19,20 +19,22 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavSearch">
                 <div class="ms-auto"> <!-- ms-auto pushes the following content to the right -->
-                    <div class="search-bar input-group">
-                        <input type="text" id="searchInput" class="form-control" placeholder="Search docs...">
-                        <!-- searchResults div will be positioned via CSS or JS if needed, or integrated differently -->
+                    <div class="search-container position-relative"> <!-- Wrapper for positioning context -->
+                        <div class="search-bar input-group">
+                            <input type="text" id="searchInput" class="form-control" placeholder="Search docs..." autocomplete="off">
+                        </div>
+                        <div id="searchResults" class="dropdown-menu"></div> <!-- searchResults styled as dropdown-menu -->
                     </div>
                 </div>
             </div>
         </div>
     </header>
-    <div id="searchResults" class="container-fluid mb-3"></div> <!-- Moved searchResults out of navbar for better layout control -->
+    <%# <div id="searchResults" class="container-fluid mb-3"></div> -- Original position, now moved into header %>
 
-    <div class="container-fluid"> <%# Changed to container-fluid for full width layout %>
-        <div class="row">
+    <div class="container-fluid flex-grow-1"> <%# Added flex-grow-1 %>
+        <div class="row flex-grow-1"> <%# Added flex-grow-1 %>
             <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse navigation-pane" id="sidebarMenu"> <%# Added Bootstrap column, sidebar, and collapse classes %>
-                <div class="position-sticky pt-3"> <%# Sticky top for nav content %>
+                <div class="position-sticky pt-3 h-100"> <%# Sticky top for nav content, added h-100 %>
                 <%# H2 and Search Bar were here, search is now in header. Nav H2 might be redundant with Bootstrap nav components later %>
                 <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
                     <span>Navigation</span>
