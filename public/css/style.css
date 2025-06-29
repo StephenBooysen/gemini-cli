@@ -8,7 +8,8 @@ body {
     flex-direction: column;
     min-height: 100vh; /* Changed from height: 100% to min-height: 100vh for flex body */
     margin: 0;
-    padding: 0; /* Ensure no default padding interferes */
+    /* padding: 0; */ /* Remove default padding: 0 here to allow padding-bottom */
+    padding-bottom: 60px; /* Space for the footer, adjust as needed */
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     font-size: 16px;
     line-height: 1.5;
@@ -152,14 +153,25 @@ body {
 
 /* .navigation-pane li { ... } */ /* Now .nav-item */
 
+.navigation-pane .nav-icon {
+    margin-right: 8px; /* Space between icon and text */
+    display: inline-block; /* Helps with alignment if needed */
+    width: 1em; /* Give icon a consistent width for alignment */
+}
+
 .navigation-pane li strong { /* Folder names - can keep specific styling for these */
     font-weight: 500;
     color: #24292e;
-    display: block; /* Ensure it takes full width for padding */
-    /* padding: 6px 10px; */ /* Bootstrap .px-3 is used in layout.ejs */
+    /* display: block; */ /* d-block is on the element in layout.ejs */
+    /* padding: 6px 10px; */ /* Dynamic padding is applied in layout.ejs */
     cursor: default;
     font-size: 0.95em;
+    line-height: 1.5; /* Ensure consistent line height with nav-links */
 }
+.navigation-pane .nav-link {
+    line-height: 1.5; /* Ensure consistent line height with strong (folder names) */
+}
+
 
 /* .navigation-pane li a { ... } */ /* Now .nav-link, Bootstrap handles display, padding, color etc. */
 /* .navigation-pane li a:hover { ... } */ /* Bootstrap .nav-link hover styles apply */
@@ -359,3 +371,33 @@ body {
     .markdown-body h2 { font-size: 1.4em; }
     .markdown-body h3 { font-size: 1.2em; }
 }
+
+/* Footer Styling */
+.footer {
+    /* position: fixed; */ /* This is handled by body flex layout if footer is last child */
+    /* left: 0; */
+    /* bottom: 0; */
+    /* width: 100%; */
+    /* background-color: #f8f9fa; */ /* bg-light in layout.ejs */
+    /* color: #6c757d; */ /* text-muted in layout.ejs */
+    /* text-align: center; */ /* text-center in layout.ejs */
+    /* padding: 1rem 0; */ /* py-3 in layout.ejs */
+    /* border-top: 1px solid #dee2e6; */ /* border-top in layout.ejs */
+    font-size: 0.9em;
+}
+
+/* Add this if the footer is not staying at the bottom with flexbox alone,
+   though body display:flex and flex-direction:column with main content flex-grow:1
+   should push the footer to the bottom if it's the last element in body.
+   The .mt-auto on the footer in layout.ejs also helps in a flex context.
+*/
+/*
+body {
+    position: relative;
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+*/

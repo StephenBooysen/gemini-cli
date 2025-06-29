@@ -41,18 +41,23 @@
                 </h6>
             <%# <div class="search-bar"> ... </div> %>
             <%# <hr> %>
-            <% function renderNav(items, basePath = '') { %>
+            <% function renderNav(items, depth = 0) { %> <%# Added depth parameter %>
                 <ul class="nav flex-column mb-2 list-unstyled"> <%# Bootstrap nav classes %>
                 <% items.forEach(item => { %>
+                    <% const itemStyle = `padding-left: ${depth * 15 + 16}px;`; // Base padding + depth * indent_size (16px is from .px-3 approx) %>
                     <li class="nav-item"> <%# Bootstrap nav item class %>
                         <% if (item.type === 'folder') { %>
-                            <strong class="px-3"><%= item.name %></strong>
+                            <strong class="d-block" style="<%= itemStyle %>">
+                                <span class="nav-icon">📁</span> <%= item.name %>
+                            </strong>
                             <% if (item.children && item.children.length > 0) { %>
-                                <%- renderNav(item.children, (basePath ? basePath + '/' : '') + item.name) %>
+                                <%- renderNav(item.children, depth + 1) %> <%# Pass incremented depth %>
                             <% } %>
                         <% } else if (item.type === 'file') { %>
                             <% const filePathForLink = item.relativePath.replace(/\\/g, '/'); %>
-                            <a class="nav-link" href="/view/<%= filePathForLink %>"><%= item.name.replace('.md', '') %></a> <%# Bootstrap nav link class %>
+                            <a class="nav-link" href="/view/<%= filePathForLink %>" style="<%= itemStyle %>">
+                                <span class="nav-icon">📄</span> <%= item.name.replace('.md', '') %>
+                            </a> <%# Bootstrap nav link class %>
                         <% } %>
                     </li>
                 <% }); %>
@@ -77,6 +82,12 @@
             </main>
         </div>
     </div>
+
+    <footer class="footer mt-auto py-3 bg-light border-top">
+        <div class="container text-center">
+            <span class="text-muted">&copy; <%= new Date().getFullYear() %> Atlas Knowledge Repository. All Rights Reserved.</span>
+        </div>
+    </footer>
 
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
