@@ -5,11 +5,15 @@
  * @requires path
  * @requires marked
  */
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const fs = require('fs').promises; // Using fs.promises
-const path = require('path');
-const marked = require('marked'); // Ensure marked is installed
+import fs from 'fs/promises'; // Using fs.promises
+import path from 'path';
+import { marked } from 'marked'; // Ensure marked is installed
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const contentBaseDir = path.join(__dirname, '..', 'content');
 
@@ -87,4 +91,4 @@ router.get('/*', async (req, res, next) => {
  * Express router for viewing documents.
  * @module routes/view
  */
-module.exports = router;
+export default router;
