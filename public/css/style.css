@@ -61,18 +61,6 @@ body {
     overflow-y: auto; /* Allow scrolling of the nav items themselves if they overflow */
 }
 
-
-/* This h2 is replaced by h6.sidebar-heading with Bootstrap classes */
-/* .navigation-pane h2 {
-    font-size: 1.1em; /* Subtler heading */
-    color: #555;
-    margin-top: 0;
-    margin-bottom: 15px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
 /* Search Bar in Navigation */
 .search-bar {
     margin-bottom: 20px;
@@ -84,9 +72,6 @@ body {
     z-index: 10;
 }
 
-/* Search input is now .form-control in Bootstrap, so these specific styles might not be needed or can be adjusted */
-/* .search-bar input[type="text"] { ... } */
-/* .search-bar input[type="text"]:focus { ... } */
 
 /* Styles for the search results dropdown */
 .search-container { /* Parent is position-relative in layout.ejs */
