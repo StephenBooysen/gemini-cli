@@ -17,17 +17,27 @@ app.use(express.static(path.join(__dirname, 'public')));
 const contentDir = path.join(__dirname, 'content');
 
 // Global variable to store the directory tree and flag for initialization
-let siteDirectoryTree = null;
+// Initialize with a default structure to prevent errors if initialization fails
+let siteDirectoryTree = {
+    name: path.basename(contentDir),
+    path: contentDir,
+    type: 'folder',
+    children: [],
+    relativePath: ''
+};
 let isInitialized = false;
 
 // Function to initialize directory tree and search index
 async function initializeApp() {
-    if (isInitialized) return;
+    if (isInitialized) return; // Prevent re-initialization
+
     try {
         console.log("Initializing application data...");
-        siteDirectoryTree = await fileService.getDirectoryTree(contentDir);
+        // Perform operations on a temporary tree first
+        const tempTree = await fileService.getDirectoryTree(contentDir);
 
         // Function to make paths relative to contentDir for links (mutates the tree)
+        // This function needs to be defined here or accessible in this scope
         function makePathsRelative(node, baseDir) {
             if (node.path) {
                 node.relativePath = path.relative(baseDir, node.path);
@@ -36,18 +46,20 @@ async function initializeApp() {
                 node.children.forEach(child => makePathsRelative(child, baseDir));
             }
         }
-        makePathsRelative(siteDirectoryTree, contentDir);
+        makePathsRelative(tempTree, contentDir);
 
         // Build the search index using the processed tree
-        // searchService.buildIndex needs the tree structure that includes relative paths
-        await searchService.buildIndex(siteDirectoryTree);
+        await searchService.buildIndex(tempTree);
 
+        // If all operations succeed, assign the fully processed tree to the global variable
+        siteDirectoryTree = tempTree;
         isInitialized = true;
         console.log("Application data initialized successfully.");
     } catch (error) {
         console.error("Fatal error during app initialization:", error);
-        // Depending on the severity, you might want to exit or disable features
-        // For now, we'll log it. The app might run without nav/search if this fails.
+        // siteDirectoryTree retains its default initialized value (empty but valid tree).
+        // isInitialized remains false, indicating that the full initialization was not successful.
+        // The application will run with an empty navigation but won't crash the template.
     }
 }
 
