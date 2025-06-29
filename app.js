@@ -1,5 +1,7 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs').promises; // Added fs.promises
+const marked = require('marked'); // Added marked
 const fileService = require('./services/fileService');
 const searchService = require('./services/searchService');
 
@@ -78,10 +80,36 @@ app.use((req, res, next) => {
 
 // Routes
 // Index page - will display navigation and a welcome message or root readme
-app.get('/', (req, res) => {
-    // For now, just render index. It will use res.locals.directoryTree for nav
+app.get('/', async (req, res) => { // Made route async
+    let defaultContentHtml = null;
+    const defaultFilesToTry = ['GettingStarted.md', 'index.md', 'README.md'];
+    let foundFile = null;
+
+    for (const fileName of defaultFilesToTry) {
+        const filePath = path.join(contentDir, fileName);
+        try {
+            await fs.access(filePath); // Check if file exists and is accessible
+            const markdownContent = await fs.readFile(filePath, 'utf-8');
+            defaultContentHtml = marked.parse(markdownContent);
+            foundFile = fileName;
+            console.log(`Successfully loaded ${fileName} for the home page.`);
+            break; // Stop after finding the first available default file
+        } catch (error) {
+            if (error.code === 'ENOENT') {
+                console.log(`Default file ${fileName} not found in content directory. Trying next...`);
+            } else {
+                console.error(`Error accessing or reading ${fileName}:`, error);
+            }
+        }
+    }
+
+    if (!foundFile) {
+        console.log('No default content file (GettingStarted.md, index.md, or README.md) found in content directory.');
+    }
+
     res.render('index', {
         title: 'Home',
+        defaultContentHtml: defaultContentHtml, // Pass HTML to the template
         // directoryTree is already in res.locals
     });
 });
