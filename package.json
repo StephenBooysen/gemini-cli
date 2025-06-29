@@ -24,6 +24,7 @@
     "express": "4.12.2",
     "fs-extra": "^11.3.0",
     "lunr": "^2.3.9",
-    "marked": "^16.0.0"
+    "marked": "^16.0.0",
+    "express-ejs-layouts": "^2.5.1"
   }
 }
