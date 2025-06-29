@@ -155,9 +155,17 @@ body {
 
 .navigation-pane .nav-icon {
     margin-right: 8px; /* Space between icon and text */
-    display: inline-block; /* Helps with alignment if needed */
-    width: 1em; /* Give icon a consistent width for alignment */
+    /* display: inline-block; */ /* Not strictly necessary for <i> if it behaves well */
+    /* width: 1em; */ /* Let the icon take its natural width, Bootstrap icons are square-ish */
+    vertical-align: text-bottom; /* Try to align icons better with text */
 }
+
+/* Ensure Bootstrap icons within nav-icon are not overly large or small */
+.navigation-pane .nav-icon > .bi {
+    font-size: 1em; /* Match the surrounding text size */
+    /* vertical-align: middle; */ /* Alternative alignment */
+}
+
 
 .navigation-pane li strong { /* Folder names - can keep specific styling for these */
     font-weight: 500;
