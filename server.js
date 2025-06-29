@@ -3,7 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import expressLayouts from 'express-ejs-layouts';
 import { getDirectoryTree } from './services/fileService.js';
-import { buildIndex, search } from './services/searchService.js'; // Import search and buildIndex
+import { buildIndex, search } from './services/searchService.js';
 import viewRoutes from './routes/view.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -12,36 +12,33 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Define content directory
 const contentDir = path.join(__dirname, 'content');
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(expressLayouts);
-app.set('layout', 'layout'); // This tells ejs-layouts to use views/layout.ejs
+app.set('layout', 'layout');
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Middleware to make directory tree available to all views
 // Middleware to make directory tree available to all views and build search index once
-app.locals.indexBuilt = false; // Flag to ensure index is built only once
+app.locals.indexBuilt = false;
 
 app.use(async (req, res, next) => {
     try {
-        if (!app.locals.directoryTree) { // Check if tree already exists at app level
+        if (!app.locals.directoryTree) {
             console.log('Fetching directory tree for the first time...');
             const tree = await getDirectoryTree(contentDir, contentDir);
-            app.locals.directoryTree = tree; // Store it in app.locals
+            app.locals.directoryTree = tree;
             console.log('Directory tree fetched.');
         }
-        // Pass the app-level tree to res.locals for this request
         res.locals.directoryTree = app.locals.directoryTree;
 
-        if (!app.locals.indexBuilt) { // Check if index has been built
+        if (!app.locals.indexBuilt) {
             console.log('Building search index for the first time...');
-            await buildIndex(app.locals.directoryTree); // Build index using the app-level tree
+            await buildIndex(app.locals.directoryTree);
             app.locals.indexBuilt = true;
             console.log('Search index built.');
         }
@@ -62,7 +59,7 @@ app.get('/api/search', (req, res) => {
     res.json(results);
 });
 
-// View Routes (must be after API routes if they have conflicting path structures)
+// View Routes
 app.use('/view', viewRoutes);
 
 // Home page route

@@ -15,10 +15,9 @@ import simpleGit from 'simple-git';
 import fs from 'fs-extra';
 import path from 'path';
 import inquirer from 'inquirer';
-import open from 'open'; // Added open package
+import open from 'open';
 
-const git = simpleGit(); // This global instance might not be ideal if CWD changes are needed often.
-                         // Consider instantiating simpleGit() as needed or simpleGit(basePath) for specific operations.
+const git = simpleGit();
 
 /**
  * Clones a Git repository to a specified local path.
@@ -37,7 +36,7 @@ async function cloneRepo(repoUrl, localPath) {
 
         if (await fs.pathExists(targetPath) && (await fs.readdir(targetPath)).length > 0) {
             console.log(`Directory ${targetPath} already exists and is not empty. Assuming it's the repo.`);
-            return; // Or initialize git for this path: git.cwd(targetPath);
+            return;
         }
 
         console.log(`Cloning ${repoUrl} into ${targetPath}...`);
@@ -45,9 +44,7 @@ async function cloneRepo(repoUrl, localPath) {
         console.log("Repository cloned successfully.");
     } catch (error) {
         console.error(`Error cloning repository: ${error.message}`);
-        // Decide if this should be a fatal error
-        // process.exit(1);
-        throw error; // Re-throw to be handled by the caller
+        throw error;
     }
 }
 
@@ -70,12 +67,11 @@ async function pullRepo(localPath) {
         }
 
         console.log(`Pulling latest changes for repository at ${targetPath}...`);
-        // Important: Set the current working directory for simple-git instance for this operation
         await simpleGit(targetPath).pull();
         console.log("Repository up to date.");
     } catch (error) {
         console.error(`Error pulling repository: ${error.message}`);
-        throw error; // Re-throw to be handled by the caller
+        throw error;
     }
 }
 
@@ -98,7 +94,7 @@ async function listMarkdownFiles(basePath) {
             const fullEntryPath = path.join(currentPath, entry.name);
             if (entry.isDirectory()) {
                 if (entry.name === '.git') {
-                    continue; // Skip .git directory
+                    continue;
                 }
                 await findFiles(fullEntryPath);
             } else if (entry.isFile() && entry.name.endsWith('.md')) {
@@ -116,7 +112,7 @@ async function listMarkdownFiles(basePath) {
         return mdFiles;
     } catch (error) {
         console.error(`Error listing markdown files: ${error.message}`);
-        return []; // Return empty list on error
+        return [];
     }
 }
 
@@ -149,10 +145,6 @@ async function commitChanges(localPath, message, filesToAdd) {
         const statusAfterAdd = await repoGit.status();
         if (statusAfterAdd.staged.length === 0) {
             console.log("No changes were staged for commit. This might happen if the file wasn't modified or saved.");
-            // Optionally, ask user if they want to commit all changes or skip.
-            // For now, if `add` was called but nothing was staged (e.g. file not changed), this is noted.
-            // If commit is called with no staged changes, simple-git/git itself will likely error out or warn.
-            // We'll let that happen to provide natural git feedback.
         }
 
         await repoGit.commit(message);
@@ -235,7 +227,7 @@ async function main() {
             type: 'input',
             name: 'localPath',
             message: 'Enter the local directory path for the clone (e.g., ./my-repo):',
-            default: './cloned_repo_nodejs', // Default value
+            default: './cloned_repo_nodejs',
             validate: function (value) {
                 if (value.length) {
                     return true;
@@ -254,18 +246,15 @@ async function main() {
         console.log(`Using repository URL: ${repoUrl}`);
         console.log(`Using local path: ${absoluteLocalPath}`);
 
-        // Ensure the local path directory exists or try to create it
         await fs.ensureDir(absoluteLocalPath);
         console.log(`Ensured directory exists: ${absoluteLocalPath}`);
 
-        // Check if .git exists in localPath
         const gitDirExists = await fs.pathExists(path.join(absoluteLocalPath, '.git'));
 
         if (gitDirExists) {
             console.log("Repository seems to exist locally. Pulling updates...");
             await pullRepo(absoluteLocalPath);
         } else {
-            // Check if directory is empty before cloning
             const filesInDir = await fs.readdir(absoluteLocalPath);
             if (filesInDir.length > 0) {
                 const { confirmClone } = await inquirer.prompt([{
@@ -296,7 +285,7 @@ async function main() {
                     name: 'selectedFile',
                     message: 'Select a markdown file to edit:',
                     choices: markdownFiles,
-                    filter: function (val) { // Ensure we return the relative path
+                    filter: function (val) {
                         return val;
                     }
                 },
@@ -333,7 +322,7 @@ async function main() {
                             }
                         ]);
 
-                        await commitChanges(absoluteLocalPath, commitMessage, [selectedFile]); // Pass selectedFile for specific add
+                        await commitChanges(absoluteLocalPath, commitMessage, [selectedFile]);
                         await pushChanges(absoluteLocalPath);
                     } else {
                         console.log("Commit and push aborted by user.");

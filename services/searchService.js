@@ -97,9 +97,6 @@ async function buildIndex(directoryTree) {
         this.field('name', { boost: 10 }); // Boost matches in title
         this.field('content');
 
-        // Optionally, add metadata if needed for display
-        // this.metadataWhitelist = ['position']
-
         documents.forEach(function (doc) {
             this.add(doc);
         }, this);
