@@ -5,8 +5,9 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "start": "node app.js",
-    "start:server": "node server.js",
+    "get:content": "node app.js",
+    "start": "node server.js",
+    "git:get": "git fetch --all;git reset --hard origin/main;",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
