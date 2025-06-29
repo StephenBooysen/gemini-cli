@@ -198,10 +198,11 @@ body {
 
 /* Markdown Body Specific Styles (Wiki.js like) - These should largely remain as they style the content itself */
 .markdown-body {
-    max-width: 800px; /* Max width for readability, common in docs */
-    margin: 0 auto; /* Center the content */
+    /* max-width: 800px; */ /* Removed for full width */
+    /* margin: 0 auto; */ /* Removed for full width */
     line-height: 1.7;
     color: #24292e; /* GitHub's primary text color */
+    width: 100%; /* Ensure it takes full width of its container (.content-pane) */
 }
 
 .markdown-body h1,

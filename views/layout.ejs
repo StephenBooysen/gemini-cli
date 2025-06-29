@@ -45,15 +45,18 @@
             <%# <hr> %>
             <% function renderNav(items, depth = 0) { %> <%# Added depth parameter %>
                 <ul class="nav flex-column mb-2 list-unstyled"> <%# Bootstrap nav classes %>
-                <% items.forEach(item => { %>
-                    <% const itemStyle = `padding-left: ${depth * 15 + 16}px;`; // Base padding + depth * indent_size (16px is from .px-3 approx) %>
+                <% items.forEach((item, index) => { %>
+                    <% const itemStyle = `padding-left: ${depth * 20 + 16}px;`; // Base padding + depth * indent_size. Increased indent to 20px. %>
+                    <% const collapseId = `collapse-${item.name.replace(/[^a-zA-Z0-9]/g, '')}-${depth}-${index}`; %>
                     <li class="nav-item"> <%# Bootstrap nav item class %>
                         <% if (item.type === 'folder') { %>
-                            <strong class="d-block" style="<%= itemStyle %>">
-                                <span class="nav-icon"><i class="bi bi-folder-fill"></i></span> <%= item.name %>
-                            </strong>
+                            <a class="nav-link folder-toggle" href="#<%= collapseId %>" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="<%= collapseId %>" style="<%= itemStyle %>">
+                                <span class="nav-icon"><i class="bi bi-folder"></i></span> <%= item.name %>
+                            </a>
                             <% if (item.children && item.children.length > 0) { %>
-                                <%- renderNav(item.children, depth + 1) %> <%# Pass incremented depth %>
+                                <div class="collapse" id="<%= collapseId %>">
+                                    <%- renderNav(item.children, depth + 1) %> <%# Pass incremented depth %>
+                                </div>
                             <% } %>
                         <% } else if (item.type === 'file') { %>
                             <% const filePathForLink = item.relativePath.replace(/\\/g, '/'); %>
