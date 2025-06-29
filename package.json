@@ -24,5 +24,8 @@
   },
   "repository": {},
   "bugs": {},
-  "homepage": ""
+  "homepage": "",
+  "devDependencies": {
+    "jsdoc": "^4.0.4"
+  }
 }

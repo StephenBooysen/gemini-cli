@@ -1,0 +1,17 @@
+{
+  "source": {
+    "include": [
+      "app.js",
+      "public/js/",
+      "routes/",
+      "services/"
+    ],
+    "includePattern": ".+\\.js(doc|x)?$",
+    "excludePattern": "(^|\\/|\\\\)_"
+  },
+  "opts": {
+    "destination": "docs/",
+    "recurse": true,
+    "verbose": true
+  }
+}

@@ -1,4 +1,32 @@
-// Main application script for the Markdown Editor GitHub Tool (Node.js)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: app.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: app.js</h1>
+
+
+
+
+
+
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// Main application script for the Markdown Editor GitHub Tool (Node.js)
 
 /**
  * @file Main application script for the Markdown Editor GitHub Tool.
@@ -27,7 +55,7 @@ const git = simpleGit(); // This global instance might not be ideal if CWD chang
  * @function cloneRepo
  * @param {string} repoUrl - The URL of the Git repository to clone.
  * @param {string} localPath - The local filesystem path where the repository should be cloned.
- * @returns {Promise<void>} A promise that resolves when the cloning is complete or if the directory already exists and is not empty.
+ * @returns {Promise&lt;void>} A promise that resolves when the cloning is complete or if the directory already exists and is not empty.
  * @throws {Error} If cloning fails.
  */
 async function cloneRepo(repoUrl, localPath) {
@@ -35,7 +63,7 @@ async function cloneRepo(repoUrl, localPath) {
         const CWD = process.cwd();
         const targetPath = path.resolve(CWD, localPath);
 
-        if (await fs.pathExists(targetPath) && (await fs.readdir(targetPath)).length > 0) {
+        if (await fs.pathExists(targetPath) &amp;&amp; (await fs.readdir(targetPath)).length > 0) {
             console.log(`Directory ${targetPath} already exists and is not empty. Assuming it's the repo.`);
             return; // Or initialize git for this path: git.cwd(targetPath);
         }
@@ -56,7 +84,7 @@ async function cloneRepo(repoUrl, localPath) {
  * @async
  * @function pullRepo
  * @param {string} localPath - The local filesystem path of the Git repository.
- * @returns {Promise<void>} A promise that resolves when the pull operation is complete.
+ * @returns {Promise&lt;void>} A promise that resolves when the pull operation is complete.
  * @throws {Error} If the path is not a git repository or if pulling fails.
  */
 async function pullRepo(localPath) {
@@ -84,7 +112,7 @@ async function pullRepo(localPath) {
  * @async
  * @function listMarkdownFiles
  * @param {string} basePath - The base path of the directory to scan. Paths returned will be relative to this base path.
- * @returns {Promise<string[]>} A promise that resolves with an array of relative file paths to the Markdown files found.
+ * @returns {Promise&lt;string[]>} A promise that resolves with an array of relative file paths to the Markdown files found.
  *                               Returns an empty array if the directory does not exist or if an error occurs.
  */
 async function listMarkdownFiles(basePath) {
@@ -101,7 +129,7 @@ async function listMarkdownFiles(basePath) {
                     continue; // Skip .git directory
                 }
                 await findFiles(fullEntryPath);
-            } else if (entry.isFile() && entry.name.endsWith('.md')) {
+            } else if (entry.isFile() &amp;&amp; entry.name.endsWith('.md')) {
                 mdFiles.push(path.relative(absoluteBasePath, fullEntryPath));
             }
         }
@@ -129,7 +157,7 @@ async function listMarkdownFiles(basePath) {
  * @param {string} message - The commit message.
  * @param {string[]} [filesToAdd=[]] - An array of file paths (relative to the repository root) to add to the staging area before committing.
  *                                    If empty or not provided, commits currently staged changes.
- * @returns {Promise<void>} A promise that resolves when the changes are committed.
+ * @returns {Promise&lt;void>} A promise that resolves when the changes are committed.
  * @throws {Error} If committing fails (e.g., Git user not configured, no changes to commit).
  */
 async function commitChanges(localPath, message, filesToAdd) {
@@ -137,7 +165,7 @@ async function commitChanges(localPath, message, filesToAdd) {
         console.log(`Attempting to commit changes in ${localPath}...`);
         const repoGit = simpleGit(localPath);
 
-        if (filesToAdd && filesToAdd.length > 0) {
+        if (filesToAdd &amp;&amp; filesToAdd.length > 0) {
             for (const file of filesToAdd) {
                 await repoGit.add(file);
                 console.log(`Added ${file} to staging area.`);
@@ -177,7 +205,7 @@ async function commitChanges(localPath, message, filesToAdd) {
  * @async
  * @function pushChanges
  * @param {string} localPath - The absolute path to the local repository.
- * @returns {Promise<void>} A promise that resolves when the changes are pushed successfully.
+ * @returns {Promise&lt;void>} A promise that resolves when the changes are pushed successfully.
  * @throws {Error} If pushing fails (e.g., no internet, authentication issues, remote has new changes).
  */
 async function pushChanges(localPath) {
@@ -225,7 +253,7 @@ async function main() {
             name: 'repoUrl',
             message: 'Enter the GitHub repository URL:',
             validate: function (value) {
-                if (value.length && (value.startsWith('http://') || value.startsWith('https://') || value.startsWith('git@'))) {
+                if (value.length &amp;&amp; (value.startsWith('http://') || value.startsWith('https://') || value.startsWith('git@'))) {
                     return true;
                 }
                 return 'Please enter a valid repository URL.';
@@ -354,3 +382,26 @@ async function main() {
 }
 
 main().catch(console.error);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-routes_view.html">routes/view</a></li><li><a href="module-services_fileService.html">services/fileService</a></li><li><a href="module-services_searchService.html">services/searchService</a></li></ul><h3>Global</h3><ul><li><a href="global.html#buildIndex">buildIndex</a></li><li><a href="global.html#cloneRepo">cloneRepo</a></li><li><a href="global.html#commitChanges">commitChanges</a></li><li><a href="global.html#documentMap">documentMap</a></li><li><a href="global.html#getAllMarkdownFiles">getAllMarkdownFiles</a></li><li><a href="global.html#getDirectoryTree">getDirectoryTree</a></li><li><a href="global.html#idx">idx</a></li><li><a href="global.html#listMarkdownFiles">listMarkdownFiles</a></li><li><a href="global.html#main">main</a></li><li><a href="global.html#pullRepo">pullRepo</a></li><li><a href="global.html#pushChanges">pushChanges</a></li><li><a href="global.html#search">search</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Sun Jun 29 2025 17:50:32 GMT+0000 (Coordinated Universal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
