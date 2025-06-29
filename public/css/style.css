@@ -1,4 +1,3 @@
-/* General Reset & Base Styles */
 html {
     height: 100%;
 }
@@ -6,188 +5,110 @@ html {
 body {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Changed from height: 100% to min-height: 100vh for flex body */
+    min-height: 100vh;
     margin: 0;
-    /* padding: 0; */ /* Remove default padding: 0 here to allow padding-bottom */
-    padding-bottom: 60px; /* Space for the footer, adjust as needed */
+    padding-bottom: 60px;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     font-size: 16px;
     line-height: 1.5;
     color: #333;
-    background-color: #fff; /* Main background for the page */
+    background-color: #fff;
 }
 
-/* Make the main content area (Bootstrap row's parent) grow */
-.container-fluid.flex-grow-1 { /* Add a new class to the container-fluid in layout.ejs */
+.container-fluid.flex-grow-1 {
     flex-grow: 1;
-    display: flex; /* Allow row to also use flex properties for height */
-}
-
-/* Ensure the row itself can grow if its parent allows */
-.row.flex-grow-1 { /* Add this class to the row in layout.ejs */
-    flex-grow: 1;
-}
-
-
-/* Container for the two-pane layout - BOOTSTRAP NOW HANDLES THIS with .container-fluid and .row > .col-md-X */
-/*
-.container {
     display: flex;
-    height: 100vh;
-    width: 100vw;
 }
-*/
 
-/* Navigation Pane Styling - BOOTSTRAP NOW HANDLES SIZING AND BASIC LAYOUT via .col-md-3, .bg-light, .sidebar etc. */
-/* We can keep some specific styling like background or padding if Bootstrap defaults aren't enough */
+.row.flex-grow-1 {
+    flex-grow: 1;
+}
+
 .navigation-pane {
-    /* width: 280px; */ /* Handled by Bootstrap col-md-3 col-lg-2 */
-    /* min-width: 220px; */
-    /* background-color: #f7f9fc; */ /* Bootstrap's .bg-light is similar or can be overridden if needed */
-    /* border-right: 1px solid #e0e0e0; */ /* Bootstrap .sidebar might add its own, or we can add if needed */
-    /* padding: 20px; */ /* Bootstrap .pt-3 adds padding-top, specific padding can be adjusted */
-    box-sizing: border-box; /* Bootstrap usually sets this globally */
-    /* overflow-y: auto; */ /* .position-sticky with a child div that scrolls is a common pattern */
-    /* display: flex; */ /* Handled by Bootstrap col */
-    /* flex-direction: column; */
+    box-sizing: border-box;
 }
 .navigation-pane .position-sticky {
     display: flex;
     flex-direction: column;
-    /* h-100 is on the element in layout.ejs, this ensures its children can use flex-grow */
 }
-.navigation-pane .nav { /* The UL inside the sticky div */
+.navigation-pane .nav {
     flex-grow: 1;
-    overflow-y: auto; /* Allow scrolling of the nav items themselves if they overflow */
+    overflow-y: auto;
 }
 
-/* Search Bar in Navigation */
 .search-bar {
     margin-bottom: 20px;
-    position: sticky; /* Keep search bar visible when scrolling nav */
-    top: -20px; /* Adjust based on padding */
-    background-color: #f7f9fc; /* Match nav background */
-    padding-top: 20px; /* Restore padding */
-    padding-bottom: 10px;
-    z-index: 10;
 }
 
-
-/* Styles for the search results dropdown */
-.search-container { /* Parent is position-relative in layout.ejs */
-    min-width: 250px; /* Or adjust as needed */
+.search-container {
+    min-width: 250px;
 }
 
 #searchResults {
-    /* display: none; */ /* Will be controlled by JS, but Bootstrap .dropdown-menu starts hidden */
     position: absolute;
-    top: 100%; /* Position below the input group */
+    top: 100%;
     left: 0;
     right: 0;
-    z-index: 1000; /* Ensure it's above other content */
-    /* Bootstrap's .dropdown-menu class already provides:
-       - display: none (initially)
-       - background-color: #fff
-       - border: 1px solid rgba(0,0,0,.15)
-       - border-radius
-       - box-shadow
-       - padding: .5rem 0
-       - etc.
-    */
-    max-height: 300px; /* Limit height for many results */
-    overflow-y: auto;   /* Scroll if results exceed max-height */
-    margin-top: .125rem; /* Small gap like Bootstrap dropdowns */
+    z-index: 1000;
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: .125rem;
 }
 
-/* Ensure #searchResults being a .dropdown-menu doesn't mess with our direct ul/li styling too much */
-/* The .dropdown-menu class itself in Bootstrap is meant to contain .dropdown-item elements */
-/* We are putting a ul directly inside. Let's ensure our links look okay. */
 #searchResults ul {
-    list-style-type: none; /* Redundant if using .list-unstyled, but safe */
+    list-style-type: none;
     padding-left: 0;
     margin: 0;
 }
 
 #searchResults li a {
     display: block;
-    padding: 0.5rem 1rem; /* Bootstrap-like padding for dropdown items */
-    color: #212529; /* Bootstrap default text color */
+    padding: 0.5rem 1rem;
+    color: #212529;
     text-decoration: none;
-    /* border-radius: 0; */ /* Typically no radius for items inside a dropdown menu unless they are buttons */
-    white-space: nowrap; /* Prevent wrapping */
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 #searchResults li a:hover {
-    background-color: #e9ecef; /* Standard hover color */
+    background-color: #e9ecef;
     color: #000;
 }
 
-/* Add a class to show the dropdown, to be toggled by JS */
 #searchResults.show {
     display: block;
 }
 
-
-/* Navigation List Styling - Bootstrap's .nav .flex-column .nav-item .nav-link handle most of this */
-/* .navigation-pane hr { ... } */ /* Replaced by Bootstrap heading or can be re-added if a separator is desired */
-
-/* .navigation-pane ul { ... } */ /* Now .nav .flex-column */
-/* .navigation-pane ul ul { ... } */ /* Nested ULs will inherit some Bootstrap styling, or need specific rules if .nav is not applied recursively */
-
-/* .navigation-pane li { ... } */ /* Now .nav-item */
-
 .navigation-pane .nav-icon {
-    margin-right: 8px; /* Space between icon and text */
-    /* display: inline-block; */ /* Not strictly necessary for <i> if it behaves well */
-    /* width: 1em; */ /* Let the icon take its natural width, Bootstrap icons are square-ish */
-    vertical-align: text-bottom; /* Try to align icons better with text */
+    margin-right: 8px;
+    vertical-align: text-bottom;
 }
 
-/* Ensure Bootstrap icons within nav-icon are not overly large or small */
 .navigation-pane .nav-icon > .bi {
-    font-size: 1em; /* Match the surrounding text size */
-    /* vertical-align: middle; */ /* Alternative alignment */
+    font-size: 1em;
 }
 
-
-.navigation-pane li strong { /* Folder names - can keep specific styling for these */
+.navigation-pane li strong {
     font-weight: 500;
     color: #24292e;
-    /* display: block; */ /* d-block is on the element in layout.ejs */
-    /* padding: 6px 10px; */ /* Dynamic padding is applied in layout.ejs */
     cursor: default;
     font-size: 0.95em;
-    line-height: 1.5; /* Ensure consistent line height with nav-links */
+    line-height: 1.5;
 }
 .navigation-pane .nav-link {
-    line-height: 1.5; /* Ensure consistent line height with strong (folder names) */
+    line-height: 1.5;
 }
 
-
-/* .navigation-pane li a { ... } */ /* Now .nav-link, Bootstrap handles display, padding, color etc. */
-/* .navigation-pane li a:hover { ... } */ /* Bootstrap .nav-link hover styles apply */
-/* .navigation-pane li a.active { ... } */ /* Bootstrap .active class on .nav-link handles this */
-
-
-/* Content Pane Styling - BOOTSTRAP NOW HANDLES SIZING via .col-md-9 */
 .content-pane {
-    /* flex-grow: 1; */ /* Handled by Bootstrap col */
-    /* padding: 30px 40px; */ /* Bootstrap .px-md-4 adds horizontal padding, vertical can be added with .py-* */
-    overflow-y: auto; /* Keep for scrolling content */
-    /* background-color: #ffffff; */ /* Default, or can be set */
-    /* height: 100%; */ /* Managed by Bootstrap row/col flex behavior */
-    box-sizing: border-box; /* Bootstrap global */
+    overflow-y: auto;
+    box-sizing: border-box;
 }
 
-/* Markdown Body Specific Styles (Wiki.js like) - These should largely remain as they style the content itself */
 .markdown-body {
-    /* max-width: 800px; */ /* Removed for full width */
-    /* margin: 0 auto; */ /* Removed for full width */
     line-height: 1.7;
-    color: #24292e; /* GitHub's primary text color */
-    width: 100%; /* Ensure it takes full width of its container (.content-pane) */
+    color: #24292e;
+    width: 100%;
 }
 
 .markdown-body h1,
@@ -196,21 +117,21 @@ body {
 .markdown-body h4,
 .markdown-body h5,
 .markdown-body h6 {
-    margin-top: 1.5em; /* More space above headings */
+    margin-top: 1.5em;
     margin-bottom: 0.8em;
     font-weight: 600;
     line-height: 1.25;
-    color: #111; /* Darker headings */
+    color: #111;
 }
 
 .markdown-body h1 {
-    font-size: 2.25em; /* Larger H1 */
-    border-bottom: 1px solid #eaecef; /* GitHub-like border */
+    font-size: 2.25em;
+    border-bottom: 1px solid #eaecef;
     padding-bottom: 0.3em;
 }
 
 .markdown-body h2 {
-    font-size: 1.75em; /* Larger H2 */
+    font-size: 1.75em;
     border-bottom: 1px solid #eaecef;
     padding-bottom: 0.3em;
 }
@@ -226,11 +147,11 @@ body {
 
 .markdown-body ul,
 .markdown-body ol {
-    padding-left: 2em; /* Standard indent for lists */
+    padding-left: 2em;
     margin-bottom: 1em;
 }
 .markdown-body ul li, .markdown-body ol li {
-    margin-bottom: 0.25em; /* Spacing between list items */
+    margin-bottom: 0.25em;
 }
 
 .markdown-body li > p {
@@ -240,38 +161,38 @@ body {
 .markdown-body blockquote {
     margin: 0 0 1em 0;
     padding: 0.5em 1em;
-    color: #586069; /* GitHub's quote color */
-    border-left: 0.25em solid #dfe2e5; /* GitHub's quote border color */
-    background-color: #f9f9f9; /* Slight background for quote */
+    color: #586069;
+    border-left: 0.25em solid #dfe2e5;
+    background-color: #f9f9f9;
 }
 
 .markdown-body pre {
-    background-color: #f6f8fa; /* GitHub's code block background */
+    background-color: #f6f8fa;
     padding: 16px;
     overflow: auto;
-    font-size: 0.9em; /* Slightly smaller for code blocks */
+    font-size: 0.9em;
     line-height: 1.45;
-    border-radius: 6px; /* Rounded corners */
+    border-radius: 6px;
     margin-bottom: 1em;
-    border: 1px solid #e1e4e8; /* Subtle border for code blocks */
+    border: 1px solid #e1e4e8;
 }
 
-.markdown-body code { /* Inline code */
+.markdown-body code {
     font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
-    font-size: 0.875em; /* Slightly smaller than surrounding text */
+    font-size: 0.875em;
     padding: 0.2em 0.4em;
-    margin: 0 2px; /* Small margin */
-    background-color: rgba(27,31,35,0.07); /* Lighter background for inline code */
+    margin: 0 2px;
+    background-color: rgba(27,31,35,0.07);
     border-radius: 3px;
 }
 
-.markdown-body pre code { /* Code within pre, reset some styles */
+.markdown-body pre code {
     font-size: 100%;
     padding: 0;
     margin: 0;
     background-color: transparent;
     border: 0;
-    color: inherit; /* Inherit color from pre for syntax highlighting themes */
+    color: inherit;
 }
 
 .markdown-body table {
@@ -285,38 +206,36 @@ body {
 
 .markdown-body th,
 .markdown-body td {
-    border: 1px solid #dfe2e5; /* GitHub table border color */
-    padding: 8px 13px; /* More padding in table cells */
+    border: 1px solid #dfe2e5;
+    padding: 8px 13px;
 }
 
 .markdown-body th {
     font-weight: 600;
-    background-color: #f6f8fa; /* Light background for table headers */
+    background-color: #f6f8fa;
 }
 .markdown-body tr:nth-child(2n) {
-    background-color: #fcfcfc; /* Zebra striping for table rows */
+    background-color: #fcfcfc;
 }
-
 
 .markdown-body img {
     max-width: 100%;
     height: auto;
     box-sizing: content-box;
     background-color: #fff;
-    border: 1px solid #e1e4e8; /* Optional border for images */
+    border: 1px solid #e1e4e8;
     border-radius: 4px;
     margin: 10px 0;
 }
 
 .markdown-body hr {
-    height: 4px; /* Thicker hr */
+    height: 4px;
     padding: 0;
     margin: 24px 0;
-    background-color: #e1e4e8; /* GitHub hr color */
+    background-color: #e1e4e8;
     border: 0;
 }
 
-/* Utility for screen readers only */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -329,31 +248,30 @@ body {
   border-width: 0;
 }
 
-/* Basic Responsive Adjustments */
 @media (max-width: 768px) {
     .container {
-        flex-direction: column; /* Stack nav and content */
+        flex-direction: column;
     }
 
     .navigation-pane {
-        width: 100%; /* Full width for nav on small screens */
-        height: auto; /* Adjust height automatically */
-        max-height: 40vh; /* Limit nav height, make it scrollable */
+        width: 100%;
+        height: auto;
+        max-height: 40vh;
         border-right: none;
-        border-bottom: 1px solid #e0e0e0; /* Border at the bottom */
+        border-bottom: 1px solid #e0e0e0;
     }
     .search-bar {
-        position: static; /* Search bar scrolls with nav */
+        position: static;
         padding-top: 0;
     }
 
     .content-pane {
         width: 100%;
-        padding: 20px; /* Reduce padding slightly on mobile */
+        padding: 20px;
     }
 
     .markdown-body {
-        padding: 0 10px; /* Ensure some padding if content pane padding is removed */
+        padding: 0 10px;
     }
 }
 
@@ -366,32 +284,6 @@ body {
     .markdown-body h3 { font-size: 1.2em; }
 }
 
-/* Footer Styling */
 .footer {
-    /* position: fixed; */ /* This is handled by body flex layout if footer is last child */
-    /* left: 0; */
-    /* bottom: 0; */
-    /* width: 100%; */
-    /* background-color: #f8f9fa; */ /* bg-light in layout.ejs */
-    /* color: #6c757d; */ /* text-muted in layout.ejs */
-    /* text-align: center; */ /* text-center in layout.ejs */
-    /* padding: 1rem 0; */ /* py-3 in layout.ejs */
-    /* border-top: 1px solid #dee2e6; */ /* border-top in layout.ejs */
     font-size: 0.9em;
 }
-
-/* Add this if the footer is not staying at the bottom with flexbox alone,
-   though body display:flex and flex-direction:column with main content flex-grow:1
-   should push the footer to the bottom if it's the last element in body.
-   The .mt-auto on the footer in layout.ejs also helps in a flex context.
-*/
-/*
-body {
-    position: relative;
-}
-.footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-}
-*/

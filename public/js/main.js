@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
         searchInput.addEventListener('input', async (e) => {
             const query = e.target.value.trim();
             searchResultsContainer.innerHTML = ''; // Clear previous results
-            // searchResultsContainer.classList.remove('show'); // Hide if previously shown
 
             if (query.length < 2) { // Don't search for very short strings
                 searchResultsContainer.classList.remove('show'); // Hide if query is too short
@@ -35,8 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (results.length > 0) {
                     const ul = document.createElement('ul');
-                    // ul.style.listStyleType = 'none'; // Bootstrap .dropdown-menu and our CSS will handle this
-                    // ul.style.paddingLeft = '0';
                     results.forEach(result => {
                         const li = document.createElement('li');
                         const link = document.createElement('a');
@@ -73,12 +70,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Optional: Show on focus if there's text, hide on blur if not clicking on results
-        // This can be complex due to the race condition between blur and click on results.
-        // The click-outside handler is often sufficient.
         searchInput.addEventListener('focus', () => {
             if (searchInput.value.trim().length >= 2 && searchResultsContainer.children.length > 0) {
-                 // Only show if there's already content (e.g., from a previous search) and input is valid
                 searchResultsContainer.classList.add('show');
             }
         });
