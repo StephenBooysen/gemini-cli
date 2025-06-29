@@ -85,7 +85,7 @@ app.use((req, res, next) => {
 // Index page - will display navigation and a welcome message or root readme
 app.get('/', async (req, res) => { // Made route async
     let defaultContentHtml = null;
-    const defaultFilesToTry = ['GettingStarted.md', 'index.md', 'README.md'];
+    const defaultFilesToTry = ['index.md', 'README.md']; // Updated to prioritize index.md and remove GettingStarted.md
     let foundFile = null;
 
     for (const fileName of defaultFilesToTry) {

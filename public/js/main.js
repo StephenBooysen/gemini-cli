@@ -80,5 +80,33 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Collapsible navigation folder icons
+    const folderToggles = document.querySelectorAll('.navigation-pane .folder-toggle');
+    folderToggles.forEach(toggle => {
+        const targetId = toggle.getAttribute('href'); // or getAttribute('data-bs-target')
+        if (targetId) {
+            const collapseElement = document.querySelector(targetId);
+            if (collapseElement) {
+                // Event listener for when collapse is shown
+                collapseElement.addEventListener('show.bs.collapse', () => {
+                    const icon = toggle.querySelector('.nav-icon > .bi');
+                    if (icon) {
+                        icon.classList.remove('bi-folder');
+                        icon.classList.add('bi-folder2-open');
+                    }
+                });
+
+                // Event listener for when collapse is hidden
+                collapseElement.addEventListener('hide.bs.collapse', () => {
+                    const icon = toggle.querySelector('.nav-icon > .bi');
+                    if (icon) {
+                        icon.classList.remove('bi-folder2-open');
+                        icon.classList.add('bi-folder');
+                    }
+                });
+            }
+        }
+    });
+
     console.log('Main JavaScript loaded and search initialized.');
 });
