@@ -78,12 +78,7 @@
             </nav>
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 content-pane"> <%# Added Bootstrap column classes %>
-                <% if (typeof body !== 'undefined') { %>
-                    <%- body %>
-                <% } else { %>
-                    <h1>Welcome to the Wiki</h1>
-                    <p>Select a document from the navigation to view its content.</p>
-                <% } %>
+                <%- body %>
             </main>
         </div>
     </div>
