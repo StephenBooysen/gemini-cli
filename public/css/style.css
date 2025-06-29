@@ -1,14 +1,32 @@
 /* General Reset & Base Styles */
-body, html {
-    margin: 0;
-    padding: 0;
+html {
     height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Changed from height: 100% to min-height: 100vh for flex body */
+    margin: 0;
+    padding: 0; /* Ensure no default padding interferes */
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
     font-size: 16px;
     line-height: 1.5;
     color: #333;
     background-color: #fff; /* Main background for the page */
 }
+
+/* Make the main content area (Bootstrap row's parent) grow */
+.container-fluid.flex-grow-1 { /* Add a new class to the container-fluid in layout.ejs */
+    flex-grow: 1;
+    display: flex; /* Allow row to also use flex properties for height */
+}
+
+/* Ensure the row itself can grow if its parent allows */
+.row.flex-grow-1 { /* Add this class to the row in layout.ejs */
+    flex-grow: 1;
+}
+
 
 /* Container for the two-pane layout - BOOTSTRAP NOW HANDLES THIS with .container-fluid and .row > .col-md-X */
 /*
@@ -32,6 +50,16 @@ body, html {
     /* display: flex; */ /* Handled by Bootstrap col */
     /* flex-direction: column; */
 }
+.navigation-pane .position-sticky {
+    display: flex;
+    flex-direction: column;
+    /* h-100 is on the element in layout.ejs, this ensures its children can use flex-grow */
+}
+.navigation-pane .nav { /* The UL inside the sticky div */
+    flex-grow: 1;
+    overflow-y: auto; /* Allow scrolling of the nav items themselves if they overflow */
+}
+
 
 /* This h2 is replaced by h6.sidebar-heading with Bootstrap classes */
 /* .navigation-pane h2 {
@@ -59,31 +87,60 @@ body, html {
 /* .search-bar input[type="text"] { ... } */
 /* .search-bar input[type="text"]:focus { ... } */
 
-/* #searchResults is now a direct child of .container-fluid, its positioning will need review */
-#searchResults {
-    margin-top: 0; /* Adjusted from 8px as it's no longer in the nav pane flow */
-    /* max-height needs to be considered with its new position, maybe it becomes a dropdown */
-    /* border-top: 1px solid #eee; */ /* May not be needed or could be a top border on the container */
-    /* padding-top: 5px; */
+/* Styles for the search results dropdown */
+.search-container { /* Parent is position-relative in layout.ejs */
+    min-width: 250px; /* Or adjust as needed */
 }
 
-/* These styles for search results items can largely remain, but ensure they don't conflict with Bootstrap utility classes if any are added */
+#searchResults {
+    /* display: none; */ /* Will be controlled by JS, but Bootstrap .dropdown-menu starts hidden */
+    position: absolute;
+    top: 100%; /* Position below the input group */
+    left: 0;
+    right: 0;
+    z-index: 1000; /* Ensure it's above other content */
+    /* Bootstrap's .dropdown-menu class already provides:
+       - display: none (initially)
+       - background-color: #fff
+       - border: 1px solid rgba(0,0,0,.15)
+       - border-radius
+       - box-shadow
+       - padding: .5rem 0
+       - etc.
+    */
+    max-height: 300px; /* Limit height for many results */
+    overflow-y: auto;   /* Scroll if results exceed max-height */
+    margin-top: .125rem; /* Small gap like Bootstrap dropdowns */
+}
+
+/* Ensure #searchResults being a .dropdown-menu doesn't mess with our direct ul/li styling too much */
+/* The .dropdown-menu class itself in Bootstrap is meant to contain .dropdown-item elements */
+/* We are putting a ul directly inside. Let's ensure our links look okay. */
 #searchResults ul {
-    /* list-style-type: none; */ /* Bootstrap .list-unstyled will handle this if added */
+    list-style-type: none; /* Redundant if using .list-unstyled, but safe */
     padding-left: 0;
     margin: 0;
 }
+
 #searchResults li a {
     display: block;
-    padding: 6px 10px;
-    color: #0366d6;
+    padding: 0.5rem 1rem; /* Bootstrap-like padding for dropdown items */
+    color: #212529; /* Bootstrap default text color */
     text-decoration: none;
-    border-radius: 4px;
+    /* border-radius: 0; */ /* Typically no radius for items inside a dropdown menu unless they are buttons */
+    white-space: nowrap; /* Prevent wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #searchResults li a:hover {
-    background-color: #e9ecef;
-    text-decoration: none;
+    background-color: #e9ecef; /* Standard hover color */
+    color: #000;
+}
+
+/* Add a class to show the dropdown, to be toggled by JS */
+#searchResults.show {
+    display: block;
 }
 
 
